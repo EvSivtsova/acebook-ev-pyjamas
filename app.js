@@ -13,10 +13,12 @@ const sessionsRouter = require("./routes/sessions");
 const usersRouter = require("./routes/users");
 const friendsRouter = require("./routes/friends");
 const imageRouter = require("./routes/images");
-// const uri = process.env.MONGODB_URI;
+
+console.log('in')
 
 const app = express();
 
+console.log('app created')
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
@@ -57,6 +59,8 @@ const sessionChecker = (req, res, next) => {
     next();
   }
 };
+
+console.log('router')
 
 // route setup
 app.use("/", homeRouter);

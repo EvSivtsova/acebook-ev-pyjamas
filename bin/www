@@ -10,12 +10,6 @@ var http = require("http");
 var mongoose = require("mongoose");
 
 /**
- * make javascript heapsize larger
- */
-
-process.env.NODE_OPTIONS = "--max_old_space_size=4096";
-
-/**
  * Get port from environment and store in Express.
  */
 
@@ -26,18 +20,25 @@ app.set("port", port);
  * Connect to MongoDB
  **/
 
-const uri = process.env.MONGODB_URI;
+let uri;
+
+console.log(process.env.MONGODB_URI_TEST)
+
+// const uri = process.env.MONGODB_URI;
 if (process.env.NODE_HOME == "/app/.heroku/node") {
-  var MONGODB_URI =
-    "mongodb+srv://admin:admin1$Acebook@acebook.si1ussd.mongodb.net/?retryWrites=true&w=majority";
+  uri =  process.env.MONGODB_URI;
 } else {
-  var MONGODB_URI = process.env.MONGODB_URL || "mongodb://0.0.0.0/acebook";
+  uri = process.env.MONGODB_URI_TEST || "mongodb://0.0.0.0/acebook";
 }
 
-mongoose.connect(MONGODB_URI, {
+console.log(uri)
+
+mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+console.log('after connection')
 
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -47,7 +48,7 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
  */
 
 var server = http.createServer(app);
-
+ 
 /**
  * Listen on provided port, on all network interfaces.
  */
